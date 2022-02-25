@@ -2,6 +2,7 @@ import 'package:barg_flutter/View/LoginPage.dart';
 import 'package:barg_flutter/View/MainPage.dart';
 import 'package:barg_flutter/View/ProfilePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -13,11 +14,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Barg Flutter',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
       getPages: [
         GetPage(

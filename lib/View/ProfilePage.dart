@@ -26,18 +26,37 @@ class _ProfilePageState extends State<ProfilePage> {
     var isOwner = rcvdData["isOwner"] as bool;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFFfff2cc),
+        shape: const RoundedRectangleBorder(
+            side: BorderSide(color: Color(0xFFd6b656), width: 2)),
         automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(
-              'assets/images/user_default_icon.png',
-              fit: BoxFit.contain,
-              height: 32,
+            GestureDetector(
+              onTap: () {
+                // choose selected person from prev page
+                Get.to(const ProfilePage(),
+                    preventDuplicates: false,
+                    arguments: {'User': user, 'isOwner': true});
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: const Color(0xFF8fbb74),
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundColor: const Color(0xFFd5e8d4),
+                  child: Image.asset(
+                    'assets/images/user_default_ic.png',
+                    fit: BoxFit.contain,
+                    height: 22,
+                  ),
+                ),
+              ),
             ),
             Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(loginController.userName))
+                child: Text(loginController.userName, style: const TextStyle(color: Colors.black)))
           ],
         ),
       ),

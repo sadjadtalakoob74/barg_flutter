@@ -21,18 +21,41 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xFFfff2cc),
+          shape: const RoundedRectangleBorder(
+              side: BorderSide(color: Color(0xFFd6b656), width: 2)),
           automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/images/user_default_icon.png',
-                fit: BoxFit.contain,
-                height: 32,
+              GestureDetector(
+                onTap: () {
+                  // choose first person in list
+                  Get.to(const ProfilePage(), arguments: {
+                    'User': mainService.data[0],
+                    'isOwner': true
+                  });
+                },
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: const Color(0xFF8fbb74),
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundColor: const Color(0xFFd5e8d4),
+                    child: Image.asset(
+                      'assets/images/user_default_ic.png',
+                      fit: BoxFit.contain,
+                      height: 22,
+                    ),
+                  ),
+                ),
               ),
               Container(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(loginController.userName))
+                  child: Text(
+                    loginController.userName,
+                    style: const TextStyle(color: Colors.black),
+                  ))
             ],
           ),
         ),
@@ -74,13 +97,22 @@ class _MainPageState extends State<MainPage> {
                             child: ListTile(
                               leading: CircleAvatar(
                                 child: Image.network(user.picture,
+                                    color: const Color(0xFFd5e8d4),
                                     errorBuilder: (context, error,
                                             stackTrace) =>
-                                        Image.asset(
-                                            "assets/images/user_default_icon.png",
-                                            width: 50,
-                                            color: Colors.white,
-                                            height: 50),
+                                        CircleAvatar(
+                                          radius: 20,
+                                          backgroundColor: const Color(0xFF8fbb74),
+                                          child: CircleAvatar(
+                                            radius: 18,
+                                            backgroundColor: const Color(0xFFd5e8d4),
+                                            child: Image.asset(
+                                              'assets/images/user_default_ic.png',
+                                              fit: BoxFit.contain,
+                                              height: 22,
+                                            ),
+                                          ),
+                                        ),
                                     width: 50,
                                     height: 50),
                               ),

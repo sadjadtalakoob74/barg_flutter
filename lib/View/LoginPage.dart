@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
                           alignment: Alignment.center,
                         ),
                         const SizedBox(
-                          height: 10.0,
+                          height: 30.0,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -46,10 +46,14 @@ class _LoginPageState extends State<LoginPage> {
                             controller: loginService.userNameController,
                             autofillHints: const [AutofillHints.username],
                             decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Color(0xFF6c8ebf),
+                                      width: 2.0),
+                                ),
                                 labelText: 'Enter your username',
-                                errorText: loginService.userNameValidate
-                                    ? 'Username Can\'t Be Empty'
-                                    : null,
+                                errorText: UsernameValidator.validate(
+                                    loginService.userNameValidator),
                                 labelStyle: const TextStyle(
                                     fontSize: 14.0, color: Colors.black),
                                 hintStyle: const TextStyle(
@@ -57,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 1.0,
+                          height: 10.0,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -68,10 +72,14 @@ class _LoginPageState extends State<LoginPage> {
                             style: const TextStyle(fontSize: 14.0),
                             autofillHints: const [AutofillHints.password],
                             decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xFF6c8ebf),
+                                      width: 2.0),
+                                ),
                                 labelText: 'Enter your password',
-                                errorText: loginService.passwordValidate
-                                    ? 'Password Can\'t Be Empty'
-                                    : null,
+                                errorText: PasswordValidator.validate(
+                                    loginService.passwordValidator),
                                 labelStyle: const TextStyle(
                                     fontSize: 14.0, color: Colors.black),
                                 hintStyle: const TextStyle(
@@ -82,7 +90,8 @@ class _LoginPageState extends State<LoginPage> {
                           height: 30.0,
                         ),
                         RaisedButton(
-                          color: Colors.teal,
+                          key: (const Key("LoginButton")),
+                          color: const Color(0xFFf8cecc),
                           textColor: Colors.black,
                           child: SizedBox(
                             height: 50,
@@ -95,29 +104,35 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0)),
+                              borderRadius: BorderRadius.circular(14.0),
+                              side: const BorderSide(
+                                  color: Color(0xFFb85450), width: 1.5)),
                           onPressed: () {
-                            loginService.userNameController.text.isEmpty
-                                ? loginService.userNameValidate = true
-                                : loginService.userNameValidate = false;
-                            loginService.passwordController.text.isEmpty
-                                ? loginService.passwordValidate = true
-                                : loginService.passwordValidate = false;
-                            if (loginService
-                                    .userNameController.text.isNotEmpty &&
-                                loginService
-                                    .passwordController.text.isNotEmpty) {
-                              if (loginService.userNameController.text.trim() ==
-                                      loginService.userName &&
-                                  loginService.passwordController.text.trim() ==
-                                      loginService.password) {
-                                Get.snackbar("Success", "Logged In.");
-                                Get.toNamed("/main");
-                              } else {
-                                Get.snackbar("Failed",
-                                    "Username or Password is incorrect, Retry.");
+                            setState(() {
+                              loginService.userNameController.text.isEmpty
+                                  ? loginService.userNameValidator = true
+                                  : loginService.userNameValidator = false;
+                              loginService.passwordController.text.isEmpty
+                                  ? loginService.passwordValidator = true
+                                  : loginService.passwordValidator = false;
+                              if (loginService
+                                      .userNameController.text.isNotEmpty &&
+                                  loginService
+                                      .passwordController.text.isNotEmpty) {
+                                if (loginService.userNameController.text
+                                            .trim() ==
+                                        loginService.userName &&
+                                    loginService.passwordController.text
+                                            .trim() ==
+                                        loginService.password) {
+                                  Get.snackbar("Success", "Logged In.");
+                                  Get.toNamed("/main");
+                                } else {
+                                  Get.snackbar("Failed",
+                                      "Username or Password is incorrect, Retry.");
+                                }
                               }
-                            }
+                            });
                           },
                         )
                       ],
